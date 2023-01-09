@@ -1,8 +1,14 @@
 package studySpring.helloSpring.controller;
 
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import studySpring.helloSpring.domain.Member;
 import studySpring.helloSpring.service.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+
+import java.util.List;
 
 @Controller // @Controller를 쓰면 스프링이 시작할때 Controller 객체를 생성하여 들고 있음
 // Controller는 수동으로 Bean 설정을 못함
@@ -24,4 +30,27 @@ public class MemberController {
         this.memberService = memberService;
     }
 
+    @GetMapping("/members/new")
+    public String createdForm() {
+        return "members/createMemberForm"; // templates/members/createMemberForm.html 파일로 이동
+    }
+
+    @PostMapping("members/new") // createMembereForm.html에서 등록버튼을 누르면 여기로 넘어옴
+    public String create(MemberForm form) { // 이전 html파일에서 넘어온 name값이 MemberForm 객체인 form.name에 저장됨
+        Member member = new Member();
+        member.setName(form.getName());
+
+        memberService.join(member); // 회원 등록 서비스
+
+        return "redirect:/";
+    }
+
+    @GetMapping("/members")
+    public String list(Model model) {
+        List<Member> members = memberService.findMembers();
+        model.addAttribute("members", members);
+        return "members/memberList";
+    }
+
+    // 2023.01.10 현재 MemoryRepository 밖에 없기 때문에 스프링 서버를 내리고 다시 시작하면 이전에 웹상에서 조작했던 모든 data가 날아간다
 }
