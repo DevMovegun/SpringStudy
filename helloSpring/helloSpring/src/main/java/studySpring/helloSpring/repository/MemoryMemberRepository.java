@@ -1,9 +1,11 @@
 package studySpring.helloSpring.repository;
 
+import org.springframework.stereotype.Repository;
 import studySpring.helloSpring.domain.Member;
 
 import java.util.*;
 
+// @Repository 자동으로 스프링이 등록해줌
 public class MemoryMemberRepository implements MemberRepository { // Alt+Shift+Enter를 누르면 implements methods 할 수 있음
 
     private static Map<Long, Member> store = new HashMap<>(); // data를 저장할 변수
