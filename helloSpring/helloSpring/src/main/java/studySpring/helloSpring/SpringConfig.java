@@ -8,37 +8,31 @@ import org.springframework.context.annotation.Configuration;
 import studySpring.helloSpring.repository.*;
 import studySpring.helloSpring.service.MemberService;
 
-import javax.persistence.EntityManager;
-import javax.sql.DataSource;
-
 @Configuration
 public class SpringConfig {
 
-    private final DataSource dataSource;
+    /*
+    * 전에 썼던 (memory, jdbc, jdbcTemplate, jpa)MemberRepository 관련 설정이 있던 곳
+    */
 
-    /*@Autowired
-    public SpringConfig(DataSource dataSource) {
-        this.dataSource = dataSource;
-    }*/
-
-    private EntityManager em;
+    private final MemberRepository memberRepository;
 
     @Autowired
-    public SpringConfig(DataSource dataSource, EntityManager em) {
-        this.dataSource = dataSource;
-        this.em = em;
+    public SpringConfig(MemberRepository memberRepository) {
+        this.memberRepository = memberRepository;
     }
 
     @Bean
     public MemberService memberService() {
-        return new MemberService(memberRepository());
+        return new MemberService(memberRepository);
     }
 
-    @Bean
-    public MemberRepository memberRepository() {
+//    @Bean
+//    public MemberRepository memberRepository() {
 //        return new MemoryMemberRepository();
 //        return new JdbcMemberRepository(dataSource); // memoryMemberRepository에서 JdbcMemberRepository로 한줄만 바꿔주면 수정할 필요가 없다
 //        return new JdbcTemplateMemberRepository(dataSource);
-        return new JpaMemberRepository(em);
-    }
+//        return new JpaMemberRepository(em);
+//
+//    }
 }
