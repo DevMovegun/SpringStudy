@@ -5,12 +5,10 @@ package studySpring.helloSpring;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import studySpring.helloSpring.repository.JdbcTemplateMemberRepository;
-import studySpring.helloSpring.repository.MemberRepository;
-import studySpring.helloSpring.repository.MemoryMemberRepository;
-import studySpring.helloSpring.repository.JdbcMemberRepository;
+import studySpring.helloSpring.repository.*;
 import studySpring.helloSpring.service.MemberService;
 
+import javax.persistence.EntityManager;
 import javax.sql.DataSource;
 
 @Configuration
@@ -18,9 +16,17 @@ public class SpringConfig {
 
     private final DataSource dataSource;
 
-    @Autowired
+    /*@Autowired
     public SpringConfig(DataSource dataSource) {
         this.dataSource = dataSource;
+    }*/
+
+    private EntityManager em;
+
+    @Autowired
+    public SpringConfig(DataSource dataSource, EntityManager em) {
+        this.dataSource = dataSource;
+        this.em = em;
     }
 
     @Bean
@@ -32,6 +38,7 @@ public class SpringConfig {
     public MemberRepository memberRepository() {
 //        return new MemoryMemberRepository();
 //        return new JdbcMemberRepository(dataSource); // memoryMemberRepository에서 JdbcMemberRepository로 한줄만 바꿔주면 수정할 필요가 없다
-        return new JdbcTemplateMemberRepository(dataSource);
+//        return new JdbcTemplateMemberRepository(dataSource);
+        return new JpaMemberRepository(em);
     }
 }

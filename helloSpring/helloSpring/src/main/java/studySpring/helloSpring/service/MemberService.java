@@ -2,6 +2,7 @@ package studySpring.helloSpring.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import studySpring.helloSpring.domain.Member;
 import studySpring.helloSpring.repository.MemberRepository;
 import studySpring.helloSpring.repository.MemoryMemberRepository;
@@ -10,6 +11,7 @@ import java.util.List;
 import java.util.Optional;
 
 // @Service 자동으로 스프링이 등록해줌
+@Transactional // jpa는 모든 data 변경이 transaction 안에서 실행되어야 함
 public class MemberService { // class 내에서 Ctrl+Shift+T를 누르면 자동으로 테스트 케이스를 만들어줌
     private final MemberRepository memberRepository;
 
