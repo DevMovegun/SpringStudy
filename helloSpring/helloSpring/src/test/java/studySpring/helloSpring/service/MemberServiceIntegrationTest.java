@@ -1,35 +1,33 @@
 package studySpring.helloSpring.service;
 
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.transaction.annotation.Transactional;
 import studySpring.helloSpring.domain.Member;
+import studySpring.helloSpring.repository.MemberRepository;
 import studySpring.helloSpring.repository.MemoryMemberRepository;
 
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.AfterEach;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import static org.assertj.core.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.*;
+@SpringBootTest // 스프링 컨테이너와 테스트를 함께 실행
+@Transactional // 테스트 시작 전에 트랜잭션을 시작하고 테스트한 다음에 db에 커밋하지 않고 롤백해버림
+class MemberServiceIntegrationTest {
 
-class MemberServiceTest {
-
+    @Autowired
     MemberService memberService;
-    MemoryMemberRepository memberRepository;
-
-    @BeforeEach
-    public void beforeEach() {
-        memberRepository = new MemoryMemberRepository();
-        memberService = new MemberService(memberRepository);
-    }
-    @AfterEach
-    public void afterEach() {
-        memberRepository.clearStore();
-    }
+    @Autowired
+    MemberRepository memberRepository;
 
     @Test // test는 과감하게 한글로 이름 지어도 됨. 빌드 될 때 테스트 코드는 포함되지 않음.
     void 회원가입() { // 테스트는 무언가 주어지고(given) 뭔가를 실행했을 때(when) 이 결과가 나와야함 (then)
         //given
         Member member = new Member();
-        member.setName("Spring");
+        member.setName("spring");
 
         //when
         Long saveId = memberService.join(member);
