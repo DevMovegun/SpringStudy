@@ -5,6 +5,7 @@ package studySpring.helloSpring;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import studySpring.helloSpring.repository.JdbcTemplateMemberRepository;
 import studySpring.helloSpring.repository.MemberRepository;
 import studySpring.helloSpring.repository.MemoryMemberRepository;
 import studySpring.helloSpring.repository.JdbcMemberRepository;
@@ -30,6 +31,7 @@ public class SpringConfig {
     @Bean
     public MemberRepository memberRepository() {
 //        return new MemoryMemberRepository();
-        return new JdbcMemberRepository(dataSource); // memoryMemberRepository에서 JdbcMemberRepository로 한줄만 바꿔주면 수정할 필요가 없다
+//        return new JdbcMemberRepository(dataSource); // memoryMemberRepository에서 JdbcMemberRepository로 한줄만 바꿔주면 수정할 필요가 없다
+        return new JdbcTemplateMemberRepository(dataSource);
     }
 }
