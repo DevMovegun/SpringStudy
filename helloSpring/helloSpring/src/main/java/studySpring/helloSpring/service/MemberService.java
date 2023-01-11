@@ -26,7 +26,7 @@ public class MemberService { // class 내에서 Ctrl+Shift+T를 누르면 자동
         // 직접 했을 때
         // 공통 관심사항(cross-cutting concern)인 시간을 측정하는 로직을 위해 코드가 복잡해져서
         // 핵심 관심사항(core concern)인 join service 로직에 유지보수가 어려워짐
-        long start = System.currentTimeMillis();
+        /* long start = System.currentTimeMillis();
 
         try {
             validateDuplicateMember(member); // 중복 회원 검증
@@ -36,7 +36,12 @@ public class MemberService { // class 내에서 Ctrl+Shift+T를 누르면 자동
             long finish = System.currentTimeMillis();
             long timeMs = finish - start;
             System.out.println("join = " + timeMs + "ms");
-        }
+        } */
+
+        // AOP 적용 후
+        validateDuplicateMember(member); // 중복 회원 검증
+        memberRepository.save(member);
+        return member.getId();
 
     }
     private void validateDuplicateMember(Member member) {
@@ -49,6 +54,7 @@ public class MemberService { // class 내에서 Ctrl+Shift+T를 누르면 자동
     // 전체 회원 조회
     public List<Member> findMembers() {
 
+        /* AOP 적용 전
         long start = System.currentTimeMillis();
 
         try {
@@ -57,7 +63,10 @@ public class MemberService { // class 내에서 Ctrl+Shift+T를 누르면 자동
             long finish = System.currentTimeMillis();
             long timeMs = finish - start;
             System.out.println("findMembers = " + timeMs + "ms");
-        }
+        } */
+
+        // AOP 적용 후
+        return memberRepository.findAll();
 
     }
     public Optional<Member> findOne(Long memberId) {

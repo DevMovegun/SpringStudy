@@ -5,6 +5,7 @@ package studySpring.helloSpring;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import studySpring.helloSpring.aop.TimeTraceAop;
 import studySpring.helloSpring.repository.*;
 import studySpring.helloSpring.service.MemberService;
 
@@ -26,6 +27,7 @@ public class SpringConfig {
     public MemberService memberService() {
         return new MemberService(memberRepository);
     }
+
 
 //    @Bean
 //    public MemberRepository memberRepository() {
